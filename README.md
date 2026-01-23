@@ -1,6 +1,6 @@
 # Filament Image Editor
 
-A powerful, client-side image editor for Laravel Filament applications with crop, filter, and annotation tools.
+A powerful, client-side image editor plugin for Laravel Filament applications with crop, filter, and annotation tools.
 
 ## Features
 
