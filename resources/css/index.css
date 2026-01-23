@@ -1,0 +1,200 @@
+@import "tailwindcss";
+
+/* Filament Image Editor Styles */
+
+.filament-image-editor {
+    position: relative;
+}
+
+/* Custom range slider styling */
+.filament-image-editor input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 0.5rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.filament-image-editor input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: rgb(var(--primary-500));
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filament-image-editor input[type="range"]::-moz-range-thumb {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: rgb(var(--primary-500));
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Canvas container */
+.filament-image-editor .canvas-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Crop overlay */
+.filament-image-editor .crop-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.filament-image-editor .crop-area {
+    position: absolute;
+    border: 2px solid white;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    cursor: move;
+}
+
+.filament-image-editor .crop-handle {
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    background: white;
+    border: 2px solid rgb(var(--primary-500));
+    border-radius: 50%;
+}
+
+.filament-image-editor .crop-handle.nw { top: -0.5rem; left: -0.5rem; cursor: nw-resize; }
+.filament-image-editor .crop-handle.ne { top: -0.5rem; right: -0.5rem; cursor: ne-resize; }
+.filament-image-editor .crop-handle.sw { bottom: -0.5rem; left: -0.5rem; cursor: sw-resize; }
+.filament-image-editor .crop-handle.se { bottom: -0.5rem; right: -0.5rem; cursor: se-resize; }
+.filament-image-editor .crop-handle.n { top: -0.5rem; left: 50%; transform: translateX(-50%); cursor: n-resize; }
+.filament-image-editor .crop-handle.s { bottom: -0.5rem; left: 50%; transform: translateX(-50%); cursor: s-resize; }
+.filament-image-editor .crop-handle.w { top: 50%; left: -0.5rem; transform: translateY(-50%); cursor: w-resize; }
+.filament-image-editor .crop-handle.e { top: 50%; right: -0.5rem; transform: translateY(-50%); cursor: e-resize; }
+
+/* Color picker swatch */
+.filament-image-editor .color-swatch {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.filament-image-editor .color-swatch:hover {
+    transform: scale(1.1);
+}
+
+.filament-image-editor .color-swatch.selected {
+    ring: 2px;
+    ring-color: rgb(var(--primary-500));
+    ring-offset: 1px;
+}
+
+/* Transparent color pattern */
+.filament-image-editor .transparent-pattern {
+    background-image:
+        linear-gradient(45deg, #ccc 25%, transparent 25%),
+        linear-gradient(-45deg, #ccc 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ccc 75%),
+        linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+}
+
+/* Filter preset grid */
+.filament-image-editor .filter-preset {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    aspect-ratio: 1;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.filament-image-editor .filter-preset:hover {
+    transform: scale(1.05);
+}
+
+.filament-image-editor .filter-preset.selected {
+    ring: 2px;
+    ring-color: rgb(var(--primary-500));
+}
+
+/* Tool buttons */
+.filament-image-editor .tool-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgb(var(--gray-300));
+    transition: all 0.15s;
+}
+
+.filament-image-editor .tool-button:hover {
+    border-color: rgb(var(--primary-500));
+}
+
+.filament-image-editor .tool-button.active {
+    background-color: rgb(var(--primary-500));
+    color: white;
+    border-color: rgb(var(--primary-500));
+}
+
+/* Checkered background for transparency */
+.filament-image-editor .checkered-bg {
+    background-image:
+        linear-gradient(45deg, #e5e5e5 25%, transparent 25%),
+        linear-gradient(-45deg, #e5e5e5 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #e5e5e5 75%),
+        linear-gradient(-45deg, transparent 75%, #e5e5e5 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+/* Dark mode adjustments */
+.dark .filament-image-editor .checkered-bg {
+    background-image:
+        linear-gradient(45deg, #333 25%, transparent 25%),
+        linear-gradient(-45deg, #333 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #333 75%),
+        linear-gradient(-45deg, transparent 75%, #333 75%);
+}
+
+/* Animation for loading states */
+@keyframes pulse-opacity {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.filament-image-editor .loading-pulse {
+    animation: pulse-opacity 1.5s ease-in-out infinite;
+}
+
+/* Fabric.js canvas overrides */
+.filament-image-editor .canvas-container {
+    margin: 0 auto;
+}
+
+.filament-image-editor .upper-canvas {
+    cursor: default !important;
+}
+
+.filament-image-editor [data-tool="freehand"] .upper-canvas {
+    cursor: crosshair !important;
+}
+
+.filament-image-editor [data-tool="eraser"] .upper-canvas {
+    cursor: crosshair !important;
+}
+
+.filament-image-editor [data-tool="text"] .upper-canvas {
+    cursor: text !important;
+}

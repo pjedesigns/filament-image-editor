@@ -1,0 +1,34 @@
+{
+    "name": "@pjedesigns/filament-image-editor",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev:styles": "npx tailwindcss -i resources/css/index.css -o resources/dist/filament-image-editor.css --postcss --watch",
+        "dev:scripts": "node bin/build.js --dev",
+        "build:styles": "npx tailwindcss -i resources/css/index.css -o resources/dist/filament-image-editor.css --postcss --minify",
+        "build:scripts": "node bin/build.js",
+        "purge": "node bin/purge-css.js -i resources/dist/filament-image-editor.css -o resources/dist/filament-image-editor.css",
+        "hash:css": "node bin/hash-css.js",
+        "dev": "npm-run-all2 --parallel dev:*",
+        "build": "npm-run-all2 build:styles purge build:scripts hash:css"
+    },
+    "devDependencies": {
+        "@tailwindcss/cli": "^4.1.18",
+        "esbuild": "^0.27.2",
+        "npm-run-all2": "^7.0.2",
+        "tailwindcss": "^4.1.18"
+    },
+    "dependencies": {
+        "fabric": "^6.9.1"
+    },
+    "overrides": {
+        "tar": "^7.6.0",
+        "glob": "^11.0.1",
+        "rimraf": "^6.0.1",
+        "inflight": "npm:empty-package@1.0.0",
+        "npmlog": "npm:console@0.7.2",
+        "are-we-there-yet": "npm:empty-package@1.0.0",
+        "gauge": "npm:empty-package@1.0.0"
+    }
+}

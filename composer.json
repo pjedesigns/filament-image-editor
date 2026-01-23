@@ -1,0 +1,73 @@
+{
+    "name": "pjedesigns/filament-image-editor",
+    "description": "A powerful, client-side image editor for Laravel Filament applications with crop, filter, and annotation tools",
+    "keywords": [
+        "pjedesigns",
+        "laravel",
+        "filament",
+        "filamentphp",
+        "image-editor",
+        "crop",
+        "filter",
+        "annotation",
+        "fabric-js"
+    ],
+    "homepage": "https://github.com/pjedesigns/filament-image-editor",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Paul Egan",
+            "email": "paul@pjedesigns.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "filament/filament": "^4.0",
+        "livewire/livewire": "^3.0",
+        "spatie/laravel-package-tools": "^1.16"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "nunomaduro/collision": "^8.1",
+        "orchestra/testbench": "^10.0",
+        "pestphp/pest": "^4.0",
+        "pestphp/pest-plugin-arch": "^4.0",
+        "pestphp/pest-plugin-laravel": "^4.0"
+    },
+    "suggest": {
+        "spatie/laravel-medialibrary": "Required for Spatie Media Library integration"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pjedesigns\\FilamentImageEditor\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pjedesigns\\FilamentImageEditor\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Pjedesigns\\FilamentImageEditor\\FilamentImageEditorServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
