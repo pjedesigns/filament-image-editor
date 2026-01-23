@@ -65,6 +65,17 @@ ImageEditor::make('photo')
 
 ### With Spatie Media Library
 
+> **Important:** This component only supports single-file collections. When defining your Spatie Media Library collection on the model, you must use `->singleFile()`:
+>
+> ```php
+> // In your Model
+> public function registerMediaCollections(): void
+> {
+>     $this->addMediaCollection('avatar')
+>         ->singleFile();  // Required for ImageEditor
+> }
+> ```
+
 ```php
 ImageEditor::make('photo')
     ->collection('photos')
