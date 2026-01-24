@@ -182,6 +182,7 @@ export class CropTool {
         this.createOverlayMasks();
 
         // Create the crop rectangle (selection border) with solid white line
+        // Fabric.js 7.x: originX/originY default to 'center', so we must explicitly set 'left'/'top'
         this.cropRect = new fabric.Rect({
             left: left,
             top: top,
@@ -190,6 +191,8 @@ export class CropTool {
             fill: 'transparent',
             stroke: '#ffffff',
             strokeWidth: 2,
+            originX: 'left',
+            originY: 'top',
             selectable: false,
             evented: false,
             _isCropElement: true,
@@ -229,6 +232,7 @@ export class CropTool {
         // This is more reliable than 4 separate rectangles
 
         // Top mask - covers entire width, from top of canvas to top of crop area
+        // Fabric.js 7.x: originX/originY default to 'center', so we must explicitly set 'left'/'top'
         if (top > 0) {
             const topMask = new fabric.Rect({
                 left: 0,
@@ -236,6 +240,8 @@ export class CropTool {
                 width: canvasWidth,
                 height: top,
                 fill: overlayColor,
+                originX: 'left',
+                originY: 'top',
                 selectable: false,
                 evented: false,
                 objectCaching: false,
@@ -254,6 +260,8 @@ export class CropTool {
                 width: canvasWidth,
                 height: canvasHeight - bottomStart,
                 fill: overlayColor,
+                originX: 'left',
+                originY: 'top',
                 selectable: false,
                 evented: false,
                 objectCaching: false,
@@ -271,6 +279,8 @@ export class CropTool {
                 width: left,
                 height: height,
                 fill: overlayColor,
+                originX: 'left',
+                originY: 'top',
                 selectable: false,
                 evented: false,
                 objectCaching: false,
@@ -289,6 +299,8 @@ export class CropTool {
                 width: canvasWidth - rightStart,
                 height: height,
                 fill: overlayColor,
+                originX: 'left',
+                originY: 'top',
                 selectable: false,
                 evented: false,
                 objectCaching: false,
@@ -329,6 +341,8 @@ export class CropTool {
                 fill: handleColor,
                 stroke: '#0ea5e9',
                 strokeWidth: 2,
+                originX: 'left',
+                originY: 'top',
                 selectable: false,
                 evented: true,
                 _isCropElement: true,
@@ -348,11 +362,14 @@ export class CropTool {
         const lineColor = 'rgba(255, 255, 255, 0.4)';
 
         // Vertical lines
+        // Fabric.js 7.x: Line uses coordinate array [x1, y1, x2, y2] but still needs origin specified
         for (let i = 1; i <= 2; i++) {
             const x = left + (width / 3) * i;
             const line = new fabric.Line([x, top, x, top + height], {
                 stroke: lineColor,
                 strokeWidth: 1,
+                originX: 'left',
+                originY: 'top',
                 selectable: false,
                 evented: false,
                 _isCropElement: true,
@@ -366,6 +383,8 @@ export class CropTool {
             const line = new fabric.Line([left, y, left + width, y], {
                 stroke: lineColor,
                 strokeWidth: 1,
+                originX: 'left',
+                originY: 'top',
                 selectable: false,
                 evented: false,
                 _isCropElement: true,
@@ -395,7 +414,8 @@ export class CropTool {
      * Handle mouse down on canvas
      */
     handleMouseDown(e) {
-        const pointer = this.canvas.getPointer(e.e);
+        // Fabric.js 7.x: getPointer() deprecated, use getScenePoint() for scene coordinates
+        const pointer = this.canvas.getScenePoint(e.e);
         const target = e.target;
 
         if (target && target._handleName) {
@@ -420,7 +440,8 @@ export class CropTool {
     handleMouseMove(e) {
         if (!this.isDragging && !this.isResizing) return;
 
-        const pointer = this.canvas.getPointer(e.e);
+        // Fabric.js 7.x: getPointer() deprecated, use getScenePoint() for scene coordinates
+        const pointer = this.canvas.getScenePoint(e.e);
         const deltaX = pointer.x - this.startX;
         const deltaY = pointer.y - this.startY;
 
@@ -817,6 +838,7 @@ export class CropTool {
         bg.rotate((bg.angle || 0) + degrees);
 
         // Swap dimensions if 90 or 270
+        // Fabric.js 7.x: setDimensions() sets both CSS and backbuffer dimensions by default
         if (Math.abs(degrees) === 90 || Math.abs(degrees) === 270) {
             const newWidth = this.canvas.height;
             const newHeight = this.canvas.width;

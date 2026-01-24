@@ -145,10 +145,14 @@ export class DrawTool {
                 // Re-enable selectability and controls on all objects when switching to select tool
                 this.canvas.forEachObject((obj) => {
                     if (obj !== this.canvas.backgroundImage && !obj._isCropElement) {
-                        // Apply all common options including control styling
+                        // Apply common options EXCEPT originX/originY to avoid repositioning objects
+                        // Objects may have been created with different origins (e.g., freehand paths use center)
                         const options = this.getCommonObjectOptions();
                         Object.keys(options).forEach(key => {
-                            obj[key] = options[key];
+                            // Skip origin properties - changing these would make objects jump
+                            if (key !== 'originX' && key !== 'originY') {
+                                obj[key] = options[key];
+                            }
                         });
                         // Update object coordinates to ensure controls are properly positioned
                         obj.setCoords();
@@ -251,7 +255,8 @@ export class DrawTool {
         if (this.canvas.isDrawingMode) return;
         if (this.currentTool === 'select') return;
 
-        const pointer = this.canvas.getPointer(event.e);
+        // Fabric.js 7.x: getPointer() deprecated, use getScenePoint() for scene coordinates
+        const pointer = this.canvas.getScenePoint(event.e);
         const target = event.target;
 
         // Special handling for text tool
@@ -354,7 +359,8 @@ export class DrawTool {
     handleMouseMove(event) {
         if (!this.isDrawing || !this.currentShape) return;
 
-        const pointer = this.canvas.getPointer(event.e);
+        // Fabric.js 7.x: getPointer() deprecated, use getScenePoint() for scene coordinates
+        const pointer = this.canvas.getScenePoint(event.e);
         const shiftKey = event.e.shiftKey;
 
         switch (this.currentTool) {
@@ -403,9 +409,14 @@ export class DrawTool {
 
     /**
      * Get common object options for controls and interactivity
+     * Fabric.js 7.x: originX/originY default to 'center', so we explicitly set 'left'/'top'
+     * to maintain backward-compatible positioning behavior
      */
     getCommonObjectOptions() {
         return {
+            // Fabric.js 7.x: Must explicitly set origin for top-left positioning
+            originX: 'left',
+            originY: 'top',
             selectable: true,
             evented: true,
             hasControls: true,

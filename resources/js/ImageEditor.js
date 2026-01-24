@@ -467,8 +467,8 @@ export function ImageEditor({ state, statePath, config, imageUrl, originalImageU
                 targetFindTolerance: 5,
             });
 
-            // Set background image (Fabric.js 6.x uses direct property assignment)
-            // In Fabric.js 6.x, fabric.Image is now fabric.FabricImage but exported as Image
+            // Set background image
+            // In Fabric.js 7.x, originX/originY default to 'center', so we must explicitly set 'left'/'top'
             // We must set img.canvas = canvas for proper rendering
             this.backgroundImage = new fabric.FabricImage(img.getElement(), {
                 scaleX: scale,
@@ -879,7 +879,8 @@ export function ImageEditor({ state, statePath, config, imageUrl, originalImageU
             }
 
             // If it's a shape object, sync stroke and fill properties to the UI
-            if (['rect', 'ellipse', 'line', 'path', 'group', 'triangle'].includes(obj.type)) {
+            // Skip eraser paths as they have rgba colors that don't work with color inputs
+            if (['rect', 'ellipse', 'line', 'path', 'group', 'triangle'].includes(obj.type) && !obj._isEraserPath) {
                 // For groups (like arrows), get stroke from the line object inside
                 if (obj.type === 'group' && obj.getObjects) {
                     const lineObj = obj.getObjects().find(o => o.type === 'line');
@@ -893,7 +894,8 @@ export function ImageEditor({ state, statePath, config, imageUrl, originalImageU
                     }
                 } else {
                     // Sync stroke color (default to black if not set)
-                    if (obj.stroke) {
+                    // Only sync hex colors to avoid issues with color input elements
+                    if (obj.stroke && obj.stroke.startsWith('#')) {
                         this.strokeColor = obj.stroke;
                     }
                     // Sync stroke width

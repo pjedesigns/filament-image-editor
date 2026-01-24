@@ -16,8 +16,8 @@ A powerful, client-side image editor plugin for Laravel Filament applications wi
 
 - PHP 8.2+
 - Laravel 12+
-- Filament 4+
-- Livewire 3+
+- Filament v4/v5
+- Livewire v3/v4
 
 ## Installation
 

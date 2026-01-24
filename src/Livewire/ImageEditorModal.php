@@ -20,10 +20,6 @@ class ImageEditorModal extends Component
 
     public bool $isOpen = false;
 
-    protected $listeners = [
-        'openImageEditor' => 'open',
-    ];
-
     public function mount(?string $source = null, array $config = []): void
     {
         $this->source = $source;
