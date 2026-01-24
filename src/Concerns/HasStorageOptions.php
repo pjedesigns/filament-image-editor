@@ -12,6 +12,10 @@ trait HasStorageOptions
 
     protected string|Closure|null $visibility = null;
 
+    protected bool|Closure $preserveFilenames = false;
+
+    protected ?string $originalFilename = null;
+
     /**
      * Set the storage disk.
      */
@@ -77,5 +81,41 @@ trait HasStorageOptions
         $directory = trim($this->getDirectory(), '/');
 
         return $directory ? "{$directory}/{$filename}" : $filename;
+    }
+
+    /**
+     * Set whether to preserve the original filename when saving.
+     */
+    public function shouldPreserveFilenames(bool|Closure $preserve = true): static
+    {
+        $this->preserveFilenames = $preserve;
+
+        return $this;
+    }
+
+    /**
+     * Check if filenames should be preserved.
+     */
+    public function getPreserveFilenames(): bool
+    {
+        return $this->evaluate($this->preserveFilenames);
+    }
+
+    /**
+     * Set the original filename (called when a file is selected).
+     */
+    public function setOriginalFilename(?string $filename): static
+    {
+        $this->originalFilename = $filename;
+
+        return $this;
+    }
+
+    /**
+     * Get the original filename.
+     */
+    public function getOriginalFilename(): ?string
+    {
+        return $this->originalFilename;
     }
 }

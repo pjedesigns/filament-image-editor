@@ -129,7 +129,9 @@ class ImageEditor extends Field
                 $imageData = $this->decodeBase64($state);
 
                 if ($imageData) {
-                    $filename = $this->generateFilename();
+                    // Try to get the original filename from Livewire state
+                    $originalFilename = $this->getOriginalFilenameFromState();
+                    $filename = $this->generateFilename($originalFilename);
 
                     // Build the media adder with all options before saving
                     $mediaAdder = $record->addMediaFromString($imageData)
@@ -203,7 +205,10 @@ class ImageEditor extends Field
             return null;
         }
 
-        $filename = $this->generateFilename();
+        // Try to get the original filename from Livewire state
+        $originalFilename = $this->getOriginalFilenameFromState();
+
+        $filename = $this->generateFilename($originalFilename);
         $directory = $this->getDirectory();
         $path = trim($directory, '/').'/'.$filename;
 
@@ -216,12 +221,34 @@ class ImageEditor extends Field
     }
 
     /**
+     * Get the original filename from Livewire state.
+     */
+    protected function getOriginalFilenameFromState(): ?string
+    {
+        if (! $this->getPreserveFilenames()) {
+            return null;
+        }
+
+        $livewire = $this->getLivewire();
+        $statePath = $this->getStatePath().'_original_filename';
+
+        return data_get($livewire, $statePath);
+    }
+
+    /**
      * Generate a unique filename for the image.
      */
-    protected function generateFilename(): string
+    protected function generateFilename(?string $originalFilename = null): string
     {
         $format = $this->getOutputFormat();
         $ext = $format === 'jpeg' ? 'jpg' : $format;
+
+        if ($this->getPreserveFilenames() && $originalFilename) {
+            $baseName = pathinfo($originalFilename, PATHINFO_FILENAME);
+            $baseName = Str::slug($baseName);
+
+            return $baseName.'.'.$ext;
+        }
 
         return Str::uuid().'.'.$ext;
     }
@@ -560,6 +587,7 @@ class ImageEditor extends Field
                 'keyboardShortcuts' => $this->hasKeyboardShortcuts(),
             ],
             'previewMaxSize' => $this->getPreviewMaxSize(),
+            'preserveFilenames' => $this->getPreserveFilenames(),
         ];
     }
 }

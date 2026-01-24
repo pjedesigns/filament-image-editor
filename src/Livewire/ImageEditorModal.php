@@ -20,6 +20,8 @@ class ImageEditorModal extends Component
 
     public bool $isOpen = false;
 
+    public ?string $originalFilename = null;
+
     public function mount(?string $source = null, array $config = []): void
     {
         $this->source = $source;
@@ -44,6 +46,10 @@ class ImageEditorModal extends Component
 
         if (isset($data['config'])) {
             $this->config = array_merge($this->config, $data['config']);
+        }
+
+        if (isset($data['originalFilename'])) {
+            $this->originalFilename = $data['originalFilename'];
         }
 
         $this->isOpen = true;
@@ -96,6 +102,15 @@ class ImageEditorModal extends Component
     {
         $format = $this->config['output']['format'] ?? 'jpeg';
         $ext = $format === 'jpeg' ? 'jpg' : $format;
+
+        $preserveFilenames = $this->config['preserveFilenames'] ?? false;
+
+        if ($preserveFilenames && $this->originalFilename) {
+            $baseName = pathinfo($this->originalFilename, PATHINFO_FILENAME);
+            $baseName = Str::slug($baseName);
+
+            return $baseName.'.'.$ext;
+        }
 
         return Str::uuid().'.'.$ext;
     }

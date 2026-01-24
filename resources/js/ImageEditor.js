@@ -43,6 +43,9 @@ export function ImageEditor({ state, statePath, config, imageUrl, originalImageU
         totalImages: 1,
         imageQueue: [],
 
+        // Original filename tracking
+        originalFilename: null,
+
         // Tool State
         availableTools: [],
         activeTool: 'crop',
@@ -276,8 +279,9 @@ export function ImageEditor({ state, statePath, config, imageUrl, originalImageU
                 this.originalImageUrl = url;
                 this.hasImage = true;
 
-                // Store original file reference
+                // Store original file reference and filename
                 this.originalFile = file;
+                this.originalFilename = file.name;
 
                 // Check dimensions warning
                 await this.checkDimensions(file);
@@ -1193,6 +1197,12 @@ export function ImageEditor({ state, statePath, config, imageUrl, originalImageU
             // before the form is submitted if the user clicks Save immediately
             if (this.$wire && this.statePath) {
                 await this.$wire.set(this.statePath, base64Data);
+
+                // If preserveFilenames is enabled, also set the original filename
+                // so PHP can use it when saving
+                if (this.config.preserveFilenames && this.originalFilename) {
+                    await this.$wire.set(this.statePath + '_original_filename', this.originalFilename);
+                }
             }
         },
 
@@ -1211,6 +1221,18 @@ export function ImageEditor({ state, statePath, config, imageUrl, originalImageU
         generateFilename() {
             const format = this.config.output?.format || 'jpeg';
             const ext = format === 'jpeg' ? 'jpg' : format;
+
+            // If preserveFilenames is enabled and we have an original filename, use it
+            if (this.config.preserveFilenames && this.originalFilename) {
+                // Get the base name without extension and slugify it
+                const baseName = this.originalFilename.replace(/\.[^/.]+$/, '');
+                const slugified = baseName
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+                return `${slugified}.${ext}`;
+            }
+
             const timestamp = Date.now();
             return `edited-image-${timestamp}.${ext}`;
         },

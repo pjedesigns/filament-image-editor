@@ -61,7 +61,19 @@ ImageEditor::make('photo')
     ->disk('public')
     ->directory('photos')
     ->visibility('public')
+    ->shouldPreserveFilenames()  // Keep original filename (slugified)
 ```
+
+#### Filename Options
+
+By default, images are saved with a UUID filename (e.g., `550e8400-e29b-41d4-a716-446655440000.jpg`). Use `shouldPreserveFilenames()` to keep the original filename:
+
+```php
+ImageEditor::make('photo')
+    ->shouldPreserveFilenames()  // "My Vacation Photo.PNG" → "my-vacation-photo.jpg"
+```
+
+The original filename is slugified (lowercase, special characters replaced with hyphens) and the extension is set based on the output format.
 
 ### With Spatie Media Library
 
