@@ -5,6 +5,7 @@
     $config = $getEditorConfig();
     $acceptedTypes = $getAcceptedFileTypesString();
     $maxFileSize = $getMaxFileSizeBytes();
+    $previewMaxHeight = $getPreviewMaxHeight();
 @endphp
 
 <x-dynamic-component
@@ -65,12 +66,13 @@
             x-cloak
             class="relative group"
         >
-            <div class="relative overflow-hidden bg-gray-100 rounded-lg dark:bg-gray-800 aspect-video">
+            <div class="relative overflow-hidden bg-gray-100 rounded-lg dark:bg-gray-800 flex items-center justify-center">
                 <img
                     x-ref="previewImage"
                     :src="previewUrl"
                     alt="Preview"
-                    class="object-contain w-full h-full"
+                    class="max-w-full w-auto h-auto"
+                    style="max-height: {{ $previewMaxHeight }}px"
                 />
 
                 {{-- Overlay with Edit/Remove buttons --}}

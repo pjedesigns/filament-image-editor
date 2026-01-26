@@ -104,7 +104,10 @@ ImageEditor::make('image')
     ->openOnSelect(false)   // Skip editor - upload image directly, edit later via "Edit" button
     ->modalSize('6xl')      // Modal size (sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full)
     ->tools(['crop', 'filter', 'draw'])  // Available tools
+    ->previewMaxHeight(400) // Maximum height for image preview in pixels (default: 400)
 ```
+
+The `previewMaxHeight` option controls the maximum height of the image preview on the form. Images smaller than this height will display at their natural size without stretching, while larger images will be constrained to the max height. This prevents pixelation when displaying smaller conversion images.
 
 When `openOnSelect(false)` is set:
 - Images are uploaded directly without opening the editor
@@ -257,6 +260,10 @@ return [
     'output' => [
         'format' => 'jpeg',
         'quality' => 0.92,
+    ],
+
+    'ui' => [
+        'preview_max_height' => 400,  // Max height for image preview in pixels
     ],
 
     'tools' => ['crop', 'filter', 'draw'],

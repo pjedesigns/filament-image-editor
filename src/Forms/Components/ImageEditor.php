@@ -45,6 +45,8 @@ class ImageEditor extends Field
 
     protected bool|Closure $keyboardShortcuts = true;
 
+    protected int|Closure|null $previewMaxHeight = null;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -457,6 +459,25 @@ class ImageEditor extends Field
     public function getPreviewMaxSize(): int
     {
         return config('filament-image-editor.ui.preview_max_size', 2000);
+    }
+
+    /**
+     * Set the maximum height for the image preview display.
+     */
+    public function previewMaxHeight(int|Closure|null $height): static
+    {
+        $this->previewMaxHeight = $height;
+
+        return $this;
+    }
+
+    /**
+     * Get the maximum height for the image preview display.
+     */
+    public function getPreviewMaxHeight(): int
+    {
+        return $this->evaluate($this->previewMaxHeight)
+            ?? config('filament-image-editor.ui.preview_max_height', 400);
     }
 
     /**
