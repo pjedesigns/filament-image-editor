@@ -158,7 +158,6 @@ class ImageEditor extends Field
         });
     }
 
-
     /**
      * Check if a string is base64 encoded image data.
      */

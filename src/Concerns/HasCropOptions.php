@@ -3,7 +3,6 @@
 namespace Pjedesigns\FilamentImageEditor\Concerns;
 
 use Closure;
-use Pjedesigns\FilamentImageEditor\Enums\AspectRatio;
 
 trait HasCropOptions
 {

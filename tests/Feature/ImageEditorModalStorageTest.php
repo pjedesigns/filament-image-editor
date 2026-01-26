@@ -11,7 +11,6 @@ use Pjedesigns\FilamentImageEditor\Livewire\ImageEditorModal;
  *
  * php artisan test packages/pjedesigns/filament-image-editor/tests
  */
-
 beforeEach(function () {
     // Skip Livewire tests when running in standalone package mode
     // Orchestra Testbench doesn't fully support Livewire view rendering
