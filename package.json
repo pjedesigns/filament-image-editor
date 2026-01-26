@@ -4,6 +4,7 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "clean": "node -e \"const fs=require('fs');const path='resources/dist';fs.readdirSync(path).filter(f=>f!=='.gitkeep'&&f!=='manifest.json').forEach(f=>fs.unlinkSync(path+'/'+f))\"",
         "dev:styles": "npx tailwindcss -i resources/css/index.css -o resources/dist/filament-image-editor.css --postcss --watch",
         "dev:scripts": "node bin/build.js --dev",
         "build:styles": "npx tailwindcss -i resources/css/index.css -o resources/dist/filament-image-editor.css --postcss --minify",
@@ -11,7 +12,7 @@
         "purge": "node bin/purge-css.js -i resources/dist/filament-image-editor.css -o resources/dist/filament-image-editor.css",
         "hash:css": "node bin/hash-css.js",
         "dev": "npm-run-all2 --parallel dev:*",
-        "build": "npm-run-all2 build:styles purge build:scripts hash:css"
+        "build": "npm-run-all2 clean build:styles purge build:scripts hash:css"
     },
     "devDependencies": {
         "@tailwindcss/cli": "^4.1.18",
