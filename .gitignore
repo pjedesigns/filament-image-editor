@@ -9,3 +9,4 @@ package-lock.json
 coverage
 phpstan.neon
 testbench.yaml
+PRD.md
