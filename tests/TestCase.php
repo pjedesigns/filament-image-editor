@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pjedesigns\FilamentImageEditor\Tests;
 
 use Filament\FilamentServiceProvider;

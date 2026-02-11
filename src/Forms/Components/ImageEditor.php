@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pjedesigns\FilamentImageEditor\Forms\Components;
 
 use Closure;
@@ -14,7 +16,6 @@ use Pjedesigns\FilamentImageEditor\Concerns\HasOutputOptions;
 use Pjedesigns\FilamentImageEditor\Concerns\HasSpatieMediaLibrary;
 use Pjedesigns\FilamentImageEditor\Concerns\HasStorageOptions;
 use Pjedesigns\FilamentImageEditor\Enums\Tool;
-use Spatie\MediaLibrary\HasMedia;
 
 class ImageEditor extends Field
 {
@@ -59,7 +60,7 @@ class ImageEditor extends Field
                 return;
             }
 
-            if (! $record instanceof HasMedia) {
+            if (! $record instanceof \Spatie\MediaLibrary\HasMedia) {
                 return;
             }
 
@@ -109,7 +110,7 @@ class ImageEditor extends Field
                 return;
             }
 
-            if (! $record instanceof HasMedia) {
+            if (! $record instanceof \Spatie\MediaLibrary\HasMedia) {
                 return;
             }
 
@@ -140,7 +141,7 @@ class ImageEditor extends Field
                         ->usingFileName($filename);
 
                     // Add custom properties
-                    $customProperties = $this->getCustomProperties();
+                    $customProperties = $this->getCustomProperties($record);
                     if (! empty($customProperties)) {
                         $mediaAdder->withCustomProperties($customProperties);
                     }
@@ -488,7 +489,7 @@ class ImageEditor extends Field
         if ($this->isUsingSpatieMediaLibrary()) {
             $record = $this->getRecord();
 
-            if ($record instanceof HasMedia) {
+            if ($record instanceof \Spatie\MediaLibrary\HasMedia) {
                 $collection = $this->getCollection();
                 $conversion = $this->getConversion();
 
@@ -538,7 +539,7 @@ class ImageEditor extends Field
         if ($this->isUsingSpatieMediaLibrary()) {
             $record = $this->getRecord();
 
-            if ($record instanceof HasMedia) {
+            if ($record instanceof \Spatie\MediaLibrary\HasMedia) {
                 $collection = $this->getCollection();
 
                 $media = $record->getFirstMedia($collection);

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pjedesigns\FilamentImageEditor\Concerns;
 
 use Closure;
+use Illuminate\Database\Eloquent\Model;
 
 trait HasSpatieMediaLibrary
 {
@@ -84,9 +87,19 @@ trait HasSpatieMediaLibrary
     /**
      * Get the custom properties.
      */
-    public function getCustomProperties(): array
+    public function getCustomProperties(?Model $record = null): array
     {
-        return $this->evaluate($this->customProperties);
+        try {
+            $resolvedRecord = $record ?? $this->getRecord();
+        } catch (\Error) {
+            $resolvedRecord = null;
+        }
+
+        $evaluated = $this->evaluate($this->customProperties, [
+            'record' => $resolvedRecord,
+        ]);
+
+        return is_array($evaluated) ? $evaluated : [];
     }
 
     /**

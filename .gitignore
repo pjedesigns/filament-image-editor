@@ -10,3 +10,4 @@ coverage
 phpstan.neon
 testbench.yaml
 PRD.md
+/.claude

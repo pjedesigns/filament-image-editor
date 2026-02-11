@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pjedesigns\FilamentImageEditor\Enums;
 
 use Filament\Support\Contracts\HasLabel;

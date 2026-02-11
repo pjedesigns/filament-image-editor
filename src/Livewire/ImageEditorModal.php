@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pjedesigns\FilamentImageEditor\Livewire;
 
 use Illuminate\Support\Facades\Storage;

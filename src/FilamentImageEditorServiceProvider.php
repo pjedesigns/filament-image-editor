@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pjedesigns\FilamentImageEditor;
 
 use Filament\Support\Assets\AlpineComponent;

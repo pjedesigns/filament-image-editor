@@ -96,6 +96,21 @@ ImageEditor::make('photo')
     ->customProperties(['source' => 'editor'])
 ```
 
+#### Dynamic custom properties (using the current record)
+
+You can pass a Closure to `customProperties()` to generate properties based on the current record:
+
+```php
+use Illuminate\Database\Eloquent\Model;
+
+ImageEditor::make('photo')
+    ->collection('photos')
+    ->customProperties(fn (?Model $record) => [
+        'custom_property'  => $record?->custom_property ?: (string) 'default',
+        'source'       => 'editor',
+    ]);
+```
+
 ### Editor Behavior
 
 ```php

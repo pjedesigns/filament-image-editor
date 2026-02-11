@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Pjedesigns\FilamentImageEditor\Forms\Components\ImageEditor;
 
 describe('Spatie Media Library Configuration', function () {
@@ -142,6 +144,53 @@ describe('Spatie Media Library Configuration', function () {
             ->customProperties(fn () => ['dynamic' => 'props']);
 
         expect($editor->getCustomProperties())->toBe(['dynamic' => 'props']);
+    });
+
+    it('can pass model values into custom properties via closure', function () {
+        $editor = ImageEditor::make('image')
+            ->collection('gallery')
+            ->customProperties(fn () => [
+                'folder_name' => 'updates',
+                'model_folder' => 'updates',
+                'uploaded_by' => 'test_user',
+            ]);
+
+        $properties = $editor->getCustomProperties();
+
+        expect($properties)->toBe([
+            'folder_name' => 'updates',
+            'model_folder' => 'updates',
+            'uploaded_by' => 'test_user',
+        ]);
+        expect($properties)->toHaveKey('folder_name');
+        expect($properties)->toHaveKey('model_folder');
+    });
+
+    it('accepts custom properties with explicit record parameter', function () {
+        $editor = ImageEditor::make('image')
+            ->collection('gallery')
+            ->customProperties([
+                'source' => 'editor',
+            ]);
+
+        // Passing null record explicitly should still work
+        $properties = $editor->getCustomProperties(null);
+
+        expect($properties)->toBe(['source' => 'editor']);
+    });
+
+    it('returns empty array when closure returns non-array', function () {
+        $editor = ImageEditor::make('image')
+            ->collection('gallery')
+            ->customProperties(fn () => 'not-an-array');
+
+        expect($editor->getCustomProperties())->toBe([]);
+    });
+
+    it('returns null for collection by default', function () {
+        $editor = ImageEditor::make('image');
+
+        expect($editor->getCollection())->toBeNull();
     });
 });
 
