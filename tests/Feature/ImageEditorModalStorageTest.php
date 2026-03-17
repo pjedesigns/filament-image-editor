@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Pjedesigns\FilamentImageEditor\Livewire\ImageEditorModal;
+use Tests\TestCase;
 
 /**
  * These tests require a full Laravel application context to properly test
@@ -16,7 +17,7 @@ use Pjedesigns\FilamentImageEditor\Livewire\ImageEditorModal;
 beforeEach(function () {
     // Skip Livewire tests when running in standalone package mode
     // Orchestra Testbench doesn't fully support Livewire view rendering
-    if (! class_exists(\Tests\TestCase::class)) {
+    if (! class_exists(TestCase::class)) {
         $this->markTestSkipped('Livewire integration tests require full Laravel application context.');
     }
 

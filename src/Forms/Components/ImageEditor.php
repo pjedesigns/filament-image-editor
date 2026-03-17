@@ -16,6 +16,7 @@ use Pjedesigns\FilamentImageEditor\Concerns\HasOutputOptions;
 use Pjedesigns\FilamentImageEditor\Concerns\HasSpatieMediaLibrary;
 use Pjedesigns\FilamentImageEditor\Concerns\HasStorageOptions;
 use Pjedesigns\FilamentImageEditor\Enums\Tool;
+use Spatie\MediaLibrary\HasMedia;
 
 class ImageEditor extends Field
 {
@@ -60,7 +61,7 @@ class ImageEditor extends Field
                 return;
             }
 
-            if (! $record instanceof \Spatie\MediaLibrary\HasMedia) {
+            if (! $record instanceof HasMedia) {
                 return;
             }
 
@@ -110,7 +111,7 @@ class ImageEditor extends Field
                 return;
             }
 
-            if (! $record instanceof \Spatie\MediaLibrary\HasMedia) {
+            if (! $record instanceof HasMedia) {
                 return;
             }
 
@@ -489,7 +490,7 @@ class ImageEditor extends Field
         if ($this->isUsingSpatieMediaLibrary()) {
             $record = $this->getRecord();
 
-            if ($record instanceof \Spatie\MediaLibrary\HasMedia) {
+            if ($record instanceof HasMedia) {
                 $collection = $this->getCollection();
                 $conversion = $this->getConversion();
 
@@ -539,7 +540,7 @@ class ImageEditor extends Field
         if ($this->isUsingSpatieMediaLibrary()) {
             $record = $this->getRecord();
 
-            if ($record instanceof \Spatie\MediaLibrary\HasMedia) {
+            if ($record instanceof HasMedia) {
                 $collection = $this->getCollection();
 
                 $media = $record->getFirstMedia($collection);
