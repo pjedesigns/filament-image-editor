@@ -141,6 +141,10 @@ class ImageEditor extends Field
                     $mediaAdder = $record->addMediaFromString($imageData)
                         ->usingFileName($filename);
 
+                    if(config('filament-image-editor.storage.name_filename_match', false)){
+                        $mediaAdder->usingName($filename);
+                    }
+
                     // Add custom properties
                     $customProperties = $this->getCustomProperties($record);
                     if (! empty($customProperties)) {
