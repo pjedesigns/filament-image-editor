@@ -11,7 +11,7 @@ return [
         'disk' => env('FILAMENT_IMAGE_EDITOR_DISK', 'public'),
         'directory' => env('FILAMENT_IMAGE_EDITOR_DIR', 'images'),
         'visibility' => 'public',
-        'name_filename_match' => false
+        'name_filename_match' => false,
     ],
 
     /*
